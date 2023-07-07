@@ -1,0 +1,134 @@
+body {
+   background-image: url('https://th.bing.com/th/id/OIP.LsRK4FJyhYmb2m42HZaqiAHaE8?pid=ImgDet&rs=1');
+   height: 100%;
+   margin: 0;
+   padding: 0;
+}
+
+h1 {
+   font-size: 2rem;
+   text-align: center;
+   font-stretch: expanded;
+   color: beige;
+   margin: 0;
+   position: relative;
+}
+
+h2 {
+   font-size: 1.5rem;
+   text-align: center;
+}
+
+h3 {
+   font-size: 1rem;
+   display: list-item;
+   margin: 0;
+   padding: 0;
+}
+
+#building {
+   width: 55%;
+   height: 80%;
+   background-color: #f2f2f2;
+   position: absolute;
+   overflow: hidden;
+   margin: 0 auto;
+   left: 50%;
+   bottom: 0;
+   transform: translateX(-50%);
+}
+
+.floor {
+   width: 100%;
+   height: 25%;
+   background-image: url('');
+   background-size: cover ;
+   border-bottom: 1px solid #999;
+   position: relative;
+}
+
+#controls {
+   width: 20%;
+   min-width: 150px;
+   height: 250px;
+   background-color: aliceblue;
+   margin-left: 10px;
+   text-align: center;
+   border-radius: 10px;
+   align-items: center;
+}
+
+#direction-buttons {
+   text-align: center;
+   display:flex;
+   justify-content: center;
+   align-items: center;
+   margin-top: 10px;
+}
+
+#dropdown {
+   width: 80%;
+   text-align: center;
+   font-size: x-small;
+   padding: 10px;
+}
+
+#floor-dropdown {
+   text-align: center;
+   margin-top: 10px;
+}
+
+label {
+   text-align: center;
+   align-items: center;
+   font-size: 0.9rem;
+   margin-top: 5px;
+ }
+
+#floors-buttons {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap:10px;
+   padding: 1px;
+   background-color: #f2f2f2;
+   font-size: 0.9rem;
+   margin-top: 10px;
+}
+
+#settings {
+   width:17%;
+   min-width: 20px;
+   height: 50%;
+   right: 100px; 
+   background-color: aliceblue;
+   position: absolute;
+   left: 82%;
+   top:59px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+   border-radius: 10px;
+   align-items: center;
+   text-align: center;
+}
+
+#num-floors{
+   width: 70%;
+   font-size: 0.9rem;
+   padding: 1px;
+   margin-top: 1px;
+   text-align: center;
+}
+
+#num-elevators {
+   width: 70%;
+   text-align: center;
+   margin: 1px;
+   font-size: 0.9rem;
+   margin-top: 1px;
+}
+
+#set {
+   margin:5px;
+   font-size: 0.9rem;
+}

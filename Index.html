@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>
+         Elevator Simulator V1
+      </title>
+      <link rel="stylesheet" href="styling.css">
+   </head>
+
+   <body>
+      <h1>Elevator Simulator V1</h2>
+       
+      <div id="controls">
+         <h2>Elevator Controls</h2>
+         <div id="floor-dropdown">
+            <select id="dropdown" name="current-floor" class="floor-control" required>
+               <option disabled selected value>Choose current-floor</option>
+               <option value="-1">-1</option>
+               <option value="G">G</option>
+               <option value="1">1</option>
+               <option value="2">2</option>
+               <option value="3">3</option>
+            </select>
+         </div>
+
+         <label for="go-to floor">Going to which floor</label>
+         <div id="direction-buttons">
+            <button type="submit" id="direction-up">UP</button>
+            <button type="submit" id="direction-down">DOWN</button>
+         </div>
+
+         <div id="floors-buttons">
+            <h3><input name="floor-num" value="-1" type="radio" class="input-radio">-1</h3>
+            <h3><input name="floor-num" value="G" type="radio" class="input-radio">G</h3>
+            <h3><input name="floor-num" value="1" type="radio" class="input-radio">1</h3>
+            <h3><input name="floor-num" value="2" type="radio" class="input-radio">2</h3>
+            <h3><input name="floor-num" value="3" type="radio" class="input-radio">3</h3>
+         </div>
+      </div>
+
+      <div id="settings">
+         <h2>Settings</h2>
+         <label>Number of floors</label>
+         <input id="num-floors" type="number" placeholder="floors" min="1"/>
+         <label>Number of elevators</label>
+         <input id="num-elevators" type="number" placeholder="elevators" min="1"/>
+         <button type="submit" id="set">START</button>
+      </div>
+
+      <div id="building">
+         <div class="floor">
+            <div class="elevator-channel"></div>
+         </div>
+         <div class="floor">
+            <div class="elevator-channel"></div>
+         </div>
+         <div class="floor">
+            <div class="elevator-channel"></div>
+         </div>
+         <div class="elevator"></div>
+         <div class="elevator"></div>
+         <div class="elevator"></div>
+         <div class="floor"></div>
+      </div>
+
+
+      <script defer type="module" src="script.js"></script>
+   </body>
+</html>
