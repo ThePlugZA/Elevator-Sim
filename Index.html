@@ -13,48 +13,66 @@
        
       <div id="controls">
          <h2>Elevator Controls</h2>
+         
          <div id="floor-dropdown">
-            <select v-model="selectedFloor" id="dropdown" name="current-floor" class="floor-control" required>
+            <select id="dropdown" name="current-floor" class="floor-control" required>
                <option disabled value="">Choose current-floor</option>
-               <option v-for="(floor, index) in floorOptions" :value="floor" :key="index"></option>
-            </select>
+               <option value="-1">-1</option>
+               <option value="G">G</option>
+               <option value="1">1</option>
+               <option value="2">2</option>
+               <option value="3">3</option>
+            </select>         
          </div>
 
          <label for="go-to floor">Going to which floor</label>
          <div id="direction-buttons">
-            <button type="submit" id="direction-up">UP</button>
-            <button type="submit" id="direction-down">DOWN</button>
+            <button type="button" id="direction-up">UP</button>
+            <button type="button" id="direction-down">DOWN</button>
          </div>
 
          <div id="floors-buttons">
+            <label><input name="floor-num" value="-1" type="radio" class="input-radio">-1</label>
+            <label><input name="floor-num" value="G" type="radio" class="input-radio">G</label>
+            <label><input name="floor-num" value="1" type="radio" class="input-radio">1</label>
+            <label><input name="floor-num" value="2" type="radio" class="input-radio">2</label>
+            <label><input name="floor-num" value="3" type="radio" class="input-radio">3</label>    
          </div>
+
+         <button @click="moveElev" type="submit" id="start-ele">Go</button>
+
       </div>
 
       <div id="settings">
          <h2>Settings</h2>
 
-         <label for="num-floors">Number of floors:</label>
-         <input v-model.number="numFloors" id="num-floors" type="number" placeholder="floors" min="3" max="10"/>
+         <label for="num-floors">Number of floors</label>
+         <input v-model.number="numFloors" id="num-floors" type="number" placeholder="min 3 & max 10" min="3" max="10"/>
          
          <label for="num-elevators">Number of elevators</label>
-         <input id="num-elevators" type="number" placeholder="elevators" min="1" max="5"/>
+         <input id="num-elevators" type="number" placeholder="min 1 & max 5" min="1" max="5"/>
          
          <button @click="addElevatorsFloors" type="submit" id="start-btn">Add</button>
       </div>
 
       <div id="building">
-         <div class="floor"></div>
-         <div class="floor"></div>
-         <div class="floor"></div>
-         <div class="floor"></div>
+         <div class="floor" id="floor-1"></div>
+         <div class="floor" id="floor-2"></div>
+         <div class="floor" id="floor-3"></div>
+         <div class="floor" id="floor-4"></div>
 
-         <div class="shaft"></div>
-         <div class="shaft"></div>
-         <div class="shaft"></div>
+         <div class="shaft" id="shaft-1">
+            <div class="elevator" id="elev-1"></div>
+         </div>
 
-         <div class="elevator"></div>
-         <div class="elevator"></div>
-         <div class="elevator"></div>
+         <div class="shaft" id="shaft-2">
+            <div class="elevator" id="elev-2"></div>
+         </div>
+
+         <div class="shaft" id="shaft-3">
+            <div class="elevator" id="elev-3"></div>
+         </div>
+
       </div>
       
       <script defer type="module" src="script.js"></script>

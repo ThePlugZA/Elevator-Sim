@@ -17,6 +17,7 @@ h1 {
 h2 {
    font-size: 1.5rem;
    text-align: center;
+   padding: 0px;
 }
 
 h3 {
@@ -26,11 +27,19 @@ h3 {
    padding: 0;
 }
 
+button:hover {
+   background-color: #5bd2a6; 
+   color: white;
+}
+
+.input-radio {
+   width: 25%;
+}
 #building {
    display: flex;
    align-items: flex-end;
    justify-content: space-between;
-   width: 55%;
+   width: 40%;
    height: 80%;
    background-color:aliceblue;
    border: solid 1px black;
@@ -43,37 +52,81 @@ h3 {
    transform: translateX(-50%);
 }
 
+
 .floor {
    display: flex;
    align-items: center;
    justify-content: center;
-   background-color: rgb(81, 53, 19);
+   background-color: rgb(210, 200, 189);
    width: 100%;
-   height: 20%;
-   border-bottom: 1px solid #999;
-   position: relative;
-   z-index: 1;
+   height: 25%;
+   border-bottom: 4px solid #3d3939;
+   border-top: 4px solid #3d3939;
+   
 }
 
+
+#floor-1 {
+   position: absolute;
+   z-index: 1;
+   bottom: 25%;
+}
+#floor-2 {
+   position: absolute;
+   z-index: 1;
+   bottom: 50%;
+
+}
+#floor-3 {
+   position: absolute;
+   z-index: 1;
+   bottom: 75%;
+
+}
+#floor-4 {
+   position: absolute;
+   z-index: 1;
+}
 .elevator {
-   width: 20%;
+   width: 100%;
    height: 25%;
    background-color: #b27575;
-   margin: 20px;
-   margin-bottom: 0px;
    position: relative;
    z-index: 2;
+}
+#elev-1{
+   bottom: 0px;
+   position: absolute;
+}
+#elev-2{
+   bottom: 0px;
+   position: absolute;
+}
+#elev-3{
+   bottom: 0px;
+   position: absolute;
 }
 
 .shaft {
    width: 20%;
    margin: 20px;
    justify-content: center;
-   background-color: #555;
+   background-color: #efdddd;
    height:100%;
    margin-bottom: 0px;
    position: relative;
-   z-index: 0;
+   z-index: 1;
+}
+#shaft-1 {
+   position: absolute;
+   left: 33%;
+}
+#shaft-2 {
+   position: absolute;
+   left: 66%;
+}
+#shaft-3 {
+   position: absolute;
 }
 
 #controls {
@@ -91,8 +144,8 @@ h3 {
    position: absolute;
    left: 10px;
    top: 60px;
+   z-index: 1;
 }
-
 #direction-buttons {
    text-align: center;
    display:flex;
@@ -102,6 +155,7 @@ h3 {
 }
 
 #dropdown {
+   height: 20px;
    width: 80%;
    text-align: center;
    font-size: x-small;
@@ -110,7 +164,7 @@ h3 {
 
 #floor-dropdown {
    text-align: center;
-   margin-top: 10px;
+   margin-top: 1px;
 }
 
 label {
@@ -122,18 +176,18 @@ label {
 
 #floors-buttons {
    display: grid;
-   grid-template-columns: repeat(3, 1fr);
-   gap:10px;
+   grid-template-columns: repeat(3, 2fr);
+   gap:5px;
    padding: 1px;
-   background-color: #f2f2f2;
+   background-color: #ca8b8b00;
    font-size: 0.9rem;
-   margin-top: 10px;
+   margin-top: 1px;
 }
 
 #settings {
-   width:17%;
-   min-width: 20px;
-   height: 50%;
+   width: 20%;
+   min-width: 150px;
+   height: 250px;
    color: beige;
    background: rgba(255, 255, 255, 0.202);
    box-shadow: 0 4px 30px rgba(88, 86, 86, 0.981);
@@ -148,6 +202,7 @@ label {
    border-radius: 10px;
    align-items: center;
    text-align: center;
+   z-index: 1;
 }
 
 #num-floors {
