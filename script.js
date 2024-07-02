@@ -37,11 +37,23 @@ function getDestination() {
 let currentFloor = null;
 let destinationFloor = null;
 
-var elevators = {
-   "elev-1": { id: "elev-1", currentFloor: 0, currentPosition: 0 },
-   "elev-2": { id: "elev-2", currentFloor: 0, currentPosition: 0 },
-   "elev-3": { id: "elev-3", currentFloor: 0, currentPosition: 0 }
-};
+var elevators = null;
+
+function createElevatorsData(numElevators) {
+   let elevators = {};
+
+   for (let i = 1; i <= numElevators; i++) {
+       let elevatorId = `elev-${i}`;
+       elevators[elevatorId] = {
+           id: elevatorId,
+           currentFloor: 0, // Assuming ground floor (0) is the initial floor
+           currentPosition: 0 // Initial position at the bottom
+       };
+   }
+
+   return elevators;
+}
+
 
 function setDirection(direction) {
    // Check if the current floor is selected
@@ -97,7 +109,7 @@ function getElevator() {
    
 }
 
-const floorHeight = 25; // Each floor height in percentage
+let floorHeight = null; // Each floor height in percentage
 
 // Function to map floor numbers to position percentages
 function getFloorPosition(floor) {
@@ -205,34 +217,6 @@ function moveTo(start, end) {
       setTimeout(() => moveDown(endPos), 500); // Delay to ensure the elevator reaches the current floor first
    }
 
-   // if (start == end) {
-   //    alert("You are already on that floor");
-   // } else if (start < end) {
-   //    // Move up
-   //    var intervalId = setInterval(function () {
-   //       if (start < end) {
-   //          moveUp(endPos);
-   //          console.log("Before move: " +  start + " and after move up: " + (start+1))            
-   //          start++;
-   //       } else {
-   //          clearInterval(intervalId);
-   //       }
-   //    }, 100);
-   //   // Adjust the interval as needed
-   // } else if (start > end) {
-   //    // Move down
-   //    var intervalId = setInterval(function () {
-   //       if (start > end) {
-   //          moveDown(endPos);
-   //          console.log("Before move: " +  start + " and after move down: " + (start-1))
-   //          start--;
-            
-   //       } else {
-   //          clearInterval(intervalId);
-   //       }
-   //    }, 100);
-   //   // Adjust the interval as needed
-   // }
 }
 
 
@@ -256,7 +240,7 @@ btn.addEventListener("click", function () {
 
 
 
-/*
+
 const addElements = document.getElementById('start-btn');
 addElements.addEventListener('click', addElevatorsFloors);
 
@@ -268,25 +252,41 @@ function addElevatorsFloors() {
    const numElevators = parseInt(numElevatorsInput.value);
    const numFloors = parseInt(numFloorsInput.value);
 
-   const buildingElement = document.getElementById('building');
-   buildingElement.innerHTML = '';
+   elevators = createElevatorsData(numElevators);
 
-   for (let i = 0; i < numElevators; i++) {
-      const elevatorElement = document.createElement('div');
-      elevatorElement.classList.add('elevator');
-      buildingElement.appendChild(elevatorElement);
-   }
+   const buildingElement = document.getElementById('building');
+   buildingElement.textContent = '';
+
+   floorHeight = 100 / numFloors; 
 
    for (let i = 0; i < numFloors; i++) {
       const floorElement = document.createElement('div');
       floorElement.classList.add('floor');
-
-      const elevatorChannel = document.createElement('div');
-      elevatorChannel.classList.add('elevator-channel');
-      floorElement.appendChild(elevatorChannel);
-
+      floorElement.id = "floor-" + (i+1).toString();
+      floorElement.style.bottom = `${i * floorHeight}%`; // Set the bottom position dynamically
+      floorElement.style.height = `${floorHeight}%`; 
       buildingElement.appendChild(floorElement);
    }
+
+   const shaftWidth = 100 / numElevators;
+   const shaftSpacing = 2; 
+
+   for (let i = 0; i < numElevators; i++) {
+      const shaft = document.createElement('div')
+      shaft.classList.add('shaft');
+      shaft.id = 'shaft-' + (i + 1).toString();
+      const elevatorElement = document.createElement('div');
+      elevatorElement.classList.add('elevator');
+      elevatorElement.style.height = `${floorHeight}%`;
+      elevatorElement.style.bottom = '0%';
+      elevatorElement.id = 'elev-' + (i + 1).toString();
+      shaft.style.left = `${i * (shaftWidth + shaftSpacing)}%`; // Set the left position dynamically with spacing
+      shaft.style.width = `${shaftWidth - shaftSpacing}%`; // Reduce width to account for spacing
+      shaft.appendChild(elevatorElement);
+      buildingElement.appendChild(shaft);
+   }
+
+ 
 
    const floorDropdown = document.getElementById('dropdown');
    const floorsButtons = document.getElementById('floors-buttons');
@@ -294,24 +294,23 @@ function addElevatorsFloors() {
    floorDropdown.innerHTML = '';
    floorsButtons.innerHTML = '';
 
-   for (let i = 1; i <= numFloors; i++) {
+   for (let i = 0; i <= numFloors; i++) {
       // Create a new option for the floor dropdown
       const option = document.createElement('option');
       option.value = i.toString();
-      option.textContent = i === 1 ? '-' : i.toString();
+      option.textContent = i === 0 ? 'G' : i.toString();
       floorDropdown.appendChild(option);
 
       // Create a new floor button
-      const floorButton = document.createElement('h3');
+      const floorButton = document.createElement('label');
+      floorButton.textContent = i === 0 ? 'G' : i.toString();
       const radioButton = document.createElement('input');
       radioButton.name = 'floor-num';
-      radioButton.value = i.toString();
+      radioButton.value = i === 0 ? 'G' : i.toString();
       radioButton.type = 'radio';
       radioButton.classList.add('input-radio');
       floorButton.appendChild(radioButton);
-      floorButton.textContent = i === -1 ? '-' : i.toString();
       floorsButtons.appendChild(floorButton);
    }
 }
 //will do this later
-*/
