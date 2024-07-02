@@ -160,6 +160,7 @@ button:hover {
    text-align: center;
    font-size: x-small;
    padding: 10px;
+   color: #000;
 }
 
 #floor-dropdown {

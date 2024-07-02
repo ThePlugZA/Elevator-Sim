@@ -37,6 +37,12 @@ function getDestination() {
 let currentFloor = null;
 let destinationFloor = null;
 
+var elevators = {
+   "elev-1": { id: "elev-1", currentFloor: 0, currentPosition: 0 },
+   "elev-2": { id: "elev-2", currentFloor: 0, currentPosition: 0 },
+   "elev-3": { id: "elev-3", currentFloor: 0, currentPosition: 0 }
+};
+
 function setDirection(direction) {
    // Check if the current floor is selected
    if (currentFloor === null) {
@@ -56,6 +62,11 @@ function setDirection(direction) {
       destinationFloor = null;
    }
 }
+
+function getElevators() {
+   return elevators;
+}
+
 function getElevator() {
    //return string ID
    //if both are at the bottom, choose random elevator
@@ -63,111 +74,184 @@ function getElevator() {
 
    //id: elev-1 elev-2 elev-3
    //returns string of the id
+   //Choose the nearest elevator to the current floor
+   let nearestElevator = null;
+   let minDistance = Infinity;
+   var elev = getElevators();
+   
+   if(currentFloor == 'G'){
+      currentFloor = 0;
+   }
 
-   const elevators = ["elev-1", "elev-2", "elev-3"];
+   for (let key in elev) {
+      let elevator = elev[key];
+      let distance = Math.abs(elevator.currentFloor - currentFloor);
+      if (distance <= minDistance) {
+         minDistance = distance;
+         nearestElevator = elevator;
+      }
+   }
+   console.log("Nearest " + nearestElevator)
+   return nearestElevator;
 
-   // If both are at the bottom, choose a random elevator
+   
+}
 
-   const randomIndex = Math.floor(Math.random() * elevators.length);
-   return elevators[randomIndex];
+const floorHeight = 25; // Each floor height in percentage
 
+// Function to map floor numbers to position percentages
+function getFloorPosition(floor) {
+   return floor * floorHeight;
 }
 
 var id = null;
 var isRunning = false;
-function moveUp() {
+var currentElevator = null;
+function moveUp(targetPos) {
+
    //update current floor by 1;
-   if (isRunning){
+   if (isRunning) {
       return;
    }
    //update display animation to move elevator element
    console.log("Move Up");
    isRunning = true;
-   var elem = document.getElementById(getElevator());
-   var pos = 0;
+   var elem = document.getElementById(currentElevator.id);
+   console.log("using elevator: " + currentElevator.id)
+   // Get the current position of the elevator
+   let pos = parseFloat(elem.style.bottom) || 0;
    clearInterval(id);
    id = setInterval(frame, 10);
 
    function frame() {
       // Check if the elevator has reached the top or a threshold value
-      if (pos >= 100) { // Adjust this threshold as needed
+      if (pos >= targetPos) { // Adjust this threshold as needed
          clearInterval(id);
          isRunning = false;
-      }
-      else {
+         currentElevator.currentPosition = pos;
+         currentElevator.currentFloor = targetPos / floorHeight;
+      } else {
          // Increment margin bottom value of 'elevator' class by 5 pixels each time this runs
          pos += 5; // Adjust the value to control the speed
-         elem.style.bottom = pos + 'px';
+         elem.style.bottom = pos + '%';
       }
-
    }
+
+   isRunning = false;
 }
 
-function moveDown() {
+function moveDown(targetPos) {
    //update current floor by 1;
-   if (isRunning){
+
+   if (isRunning) {
       return;
    }
 
    console.log("Move Down");
    isRunning = true;
    //update display animation to move elevator element
-   var elem = document.getElementById(getElevator());
-   var pos = 0;
+   var elem = document.getElementById(currentElevator.id);
+   console.log("using elevator: " + currentElevator.id)
+
+   let pos = parseFloat(elem.style.bottom) || 0;
    clearInterval(id);
    id = setInterval(frame, 10);
 
    function frame() {
-      if (pos <= -100) { // Adjust this threshold as needed
+      if (pos <= targetPos) { // Adjust this threshold as needed
          clearInterval(id);
          isRunning = false;
-      }
-      else {
+         currentElevator.currentPosition = pos;
+         currentElevator.currentFloor = targetPos / floorHeight;
+      } else {
          // Increment margin bottom value of 'elevator' class by 5 pixels each time this runs
          pos -= 5; // Adjust the value to control the speed
-         elem.style.bottom = pos + 'px';
+         elem.style.bottom = pos + '%';
       }
    }
 }
 
 function moveTo(start, end) {
    console.log("Moving");
-   alert("Cooking");
-   if (start == end) {
+
+   if (start == 'G' ) { //convert G to 0 so list of floors becomes [0, 1, 2, 3]
+      start = 0;
+   }
+   if (end == 'G' ) { //convert G to 0 so list of floors becomes [0, 1, 2, 3]
+      end = 0;
+   }
+
+
+   let startPos = getFloorPosition(start);
+   let endPos = getFloorPosition(end);
+   currentElevator = getElevator();
+
+
+   if (currentElevator.currentFloor !== start) {
+      // Move elevator to the current floor first
+      console.log("Moving to current floor first");
+      if (currentElevator.currentFloor < start) {
+         moveUp(startPos);
+      } else {
+         moveDown(startPos);
+      }
+   }
+
+   if (start === end) {
       alert("You are already on that floor");
    } else if (start < end) {
-      // Move up
-      var intervalId = setInterval(function () {
-         if (start < end) {
-            moveUp();
-            start++;
-         } else {
-            clearInterval(intervalId);
-         }
-      }, 100); // Adjust the interval as needed
+      setTimeout(() => moveUp(endPos), 500); // Delay to ensure the elevator reaches the current floor first
    } else if (start > end) {
-      // Move down
-      var intervalId = setInterval(function () {
-         if (start > end) {
-            moveDown();
-            start--;
-         } else {
-            clearInterval(intervalId);
-         }
-      }, 100); // Adjust the interval as needed
+      setTimeout(() => moveDown(endPos), 500); // Delay to ensure the elevator reaches the current floor first
    }
+
+   // if (start == end) {
+   //    alert("You are already on that floor");
+   // } else if (start < end) {
+   //    // Move up
+   //    var intervalId = setInterval(function () {
+   //       if (start < end) {
+   //          moveUp(endPos);
+   //          console.log("Before move: " +  start + " and after move up: " + (start+1))            
+   //          start++;
+   //       } else {
+   //          clearInterval(intervalId);
+   //       }
+   //    }, 100);
+   //   // Adjust the interval as needed
+   // } else if (start > end) {
+   //    // Move down
+   //    var intervalId = setInterval(function () {
+   //       if (start > end) {
+   //          moveDown(endPos);
+   //          console.log("Before move: " +  start + " and after move down: " + (start-1))
+   //          start--;
+            
+   //       } else {
+   //          clearInterval(intervalId);
+   //       }
+   //    }, 100);
+   //   // Adjust the interval as needed
+   // }
 }
 
 
-document.addEventListener("keydown", function(event) { //change function executed when 'Enter' key is clicked
-   if (event.keyCode === 13) {
+document.addEventListener("keydown", function (event) { //change function executed when 'Enter' key is clicked
+   if (event.key === "Enter") {
+      event.preventDefault()
       moveTo(getCurrFloor(), getDestination());
    }
- });
- const btn = document.querySelector("#start-ele")
- btn.addEventListener("click", function() {
+});
+
+const btn = document.querySelector("#start-ele")
+btn.addEventListener("click", function () {
+   event.preventDefault();
+   //if elevators is not at currnet floor, move elevator there first
    moveTo(getCurrFloor(), getDestination());
-});  
+   //reset 
+   currentFloor = null;
+   destinationFloor = null;
+});
 
 
 
