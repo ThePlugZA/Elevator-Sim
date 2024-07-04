@@ -43,12 +43,12 @@ function createElevatorsData(numElevators) {
    let elevators = {};
 
    for (let i = 1; i <= numElevators; i++) {
-       let elevatorId = `elev-${i}`;
-       elevators[elevatorId] = {
-           id: elevatorId,
-           currentFloor: 0, // Assuming ground floor (0) is the initial floor
-           currentPosition: 0 // Initial position at the bottom
-       };
+      let elevatorId = `elev-${i}`;
+      elevators[elevatorId] = {
+         id: elevatorId,
+         currentFloor: 0, // Assuming ground floor (0) is the initial floor
+         currentPosition: 0 // Initial position at the bottom
+      };
    }
 
    return elevators;
@@ -90,8 +90,8 @@ function getElevator() {
    let nearestElevator = null;
    let minDistance = Infinity;
    var elev = getElevators();
-   
-   if(currentFloor == 'G'){
+
+   if (currentFloor == 'G') {
       currentFloor = 0;
    }
 
@@ -184,10 +184,10 @@ function moveDown(targetPos) {
 function moveTo(start, end) {
    console.log("Moving");
 
-   if (start == 'G' ) { //convert G to 0 so list of floors becomes [0, 1, 2, 3]
+   if (start == 'G') { //convert G to 0 so list of floors becomes [0, 1, 2, 3]
       start = 0;
    }
-   if (end == 'G' ) { //convert G to 0 so list of floors becomes [0, 1, 2, 3]
+   if (end == 'G') { //convert G to 0 so list of floors becomes [0, 1, 2, 3]
       end = 0;
    }
 
@@ -236,33 +236,41 @@ btn.addEventListener("click", function () {
 
 const addElements = document.getElementById('start-btn');
 addElements.addEventListener('click', addElevatorsFloors);
+const runElements = document.getElementById('run-btn');
+runElements.addEventListener('click', run);
 
-
+function run() {
+   for (let i = 0; i < 3; i++) {
+      setInterval(freerun, 2000 + i * 1000); // Stagger the start of each interval slightly
+  }
+}
+var numFloors = null;
+var numElevators = null;
 function addElevatorsFloors() {
    const numElevatorsInput = document.getElementById('num-elevators');
    const numFloorsInput = document.getElementById('num-floors');
 
-   const numElevators = parseInt(numElevatorsInput.value);
-   const numFloors = parseInt(numFloorsInput.value);
+   numElevators = parseInt(numElevatorsInput.value);
+   numFloors = parseInt(numFloorsInput.value);
 
    elevators = createElevatorsData(numElevators);
 
    const buildingElement = document.getElementById('building');
    buildingElement.textContent = '';
 
-   floorHeight = 100 / numFloors; 
+   floorHeight = 100 / numFloors;
 
    for (let i = 0; i < numFloors; i++) {
       const floorElement = document.createElement('div');
       floorElement.classList.add('floor');
-      floorElement.id = "floor-" + (i+1).toString();
+      floorElement.id = "floor-" + (i + 1).toString();
       floorElement.style.bottom = `${i * floorHeight}%`; // Set the bottom position dynamically
-      floorElement.style.height = `${floorHeight}%`; 
+      floorElement.style.height = `${floorHeight}%`;
       buildingElement.appendChild(floorElement);
    }
 
    const shaftWidth = 100 / numElevators;
-   const shaftSpacing = 1; 
+   const shaftSpacing = 1;
 
    for (let i = 0; i < numElevators; i++) {
       const shaft = document.createElement('div')
@@ -274,7 +282,7 @@ function addElevatorsFloors() {
       elevatorElement.style.bottom = '0%';
       elevatorElement.id = 'elev-' + (i + 1).toString();
       shaft.style.left = `${i * (shaftWidth + shaftSpacing)}%`; // Set the left position dynamically with spacing
-      shaft.style.width = `${shaftWidth - shaftSpacing-1}%`; // Reduce width to account for spacing
+      shaft.style.width = `${shaftWidth - shaftSpacing - 1}%`; // Reduce width to account for spacing
       shaft.appendChild(elevatorElement);
       buildingElement.appendChild(shaft);
    }
@@ -304,4 +312,19 @@ function addElevatorsFloors() {
       floorsButtons.appendChild(floorButton);
    }
 }
-//will do this later
+
+function freerun() {
+   //choose eleveator
+   console.log("free run attempt")
+   const elevatorIds = Object.keys(elevators);
+   const randomStart = Math.floor(Math.random() * numFloors);
+   let randomEnd = Math.floor(Math.random() * numFloors);
+
+   while (randomEnd === randomStart) {
+      randomEnd = Math.floor(Math.random() * numFloors); // Ensure end floor is different from start
+   }
+
+   moveTo(randomStart, randomEnd);
+
+   setTimeout(freerun, 6000);
+}
