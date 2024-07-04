@@ -35,17 +35,17 @@ button:hover {
 .input-radio {
    width: 25%;
 }
+
 #building {
    display: flex;
    align-items: flex-end;
    justify-content: space-between;
-   width: 40%;
+   width: 50%;
    height: 80%;
    background-color:aliceblue;
    border: solid 1px black;
    border-radius: 5px;
    position: absolute;
-   overflow: hidden;
    margin: 0 auto;
    left: 50%;
    bottom: 0;
@@ -73,7 +73,6 @@ button:hover {
 }
 
 .shaft {
-   margin: 20px;
    justify-content: center;
    background-color: #efdddd;
    height:100%;

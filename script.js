@@ -105,8 +105,6 @@ function getElevator() {
    }
    console.log("Nearest " + nearestElevator)
    return nearestElevator;
-
-   
 }
 
 let floorHeight = null; // Each floor height in percentage
@@ -193,7 +191,6 @@ function moveTo(start, end) {
       end = 0;
    }
 
-
    let startPos = getFloorPosition(start);
    let endPos = getFloorPosition(end);
    currentElevator = getElevator();
@@ -237,10 +234,6 @@ btn.addEventListener("click", function () {
    destinationFloor = null;
 });
 
-
-
-
-
 const addElements = document.getElementById('start-btn');
 addElements.addEventListener('click', addElevatorsFloors);
 
@@ -269,7 +262,7 @@ function addElevatorsFloors() {
    }
 
    const shaftWidth = 100 / numElevators;
-   const shaftSpacing = 2; 
+   const shaftSpacing = 1; 
 
    for (let i = 0; i < numElevators; i++) {
       const shaft = document.createElement('div')
@@ -281,12 +274,10 @@ function addElevatorsFloors() {
       elevatorElement.style.bottom = '0%';
       elevatorElement.id = 'elev-' + (i + 1).toString();
       shaft.style.left = `${i * (shaftWidth + shaftSpacing)}%`; // Set the left position dynamically with spacing
-      shaft.style.width = `${shaftWidth - shaftSpacing}%`; // Reduce width to account for spacing
+      shaft.style.width = `${shaftWidth - shaftSpacing-1}%`; // Reduce width to account for spacing
       shaft.appendChild(elevatorElement);
       buildingElement.appendChild(shaft);
    }
-
- 
 
    const floorDropdown = document.getElementById('dropdown');
    const floorsButtons = document.getElementById('floors-buttons');
@@ -294,7 +285,7 @@ function addElevatorsFloors() {
    floorDropdown.innerHTML = '';
    floorsButtons.innerHTML = '';
 
-   for (let i = 0; i <= numFloors; i++) {
+   for (let i = 0; i < numFloors; i++) {
       // Create a new option for the floor dropdown
       const option = document.createElement('option');
       option.value = i.toString();
